@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-0(p^u1@#3)i5zj3$!kn4cp4wc%xur5gw-fmnbls3sqf@ij+-o@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'inventario_app.apps.InventarioAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -72,12 +73,19 @@ WSGI_APPLICATION = 'SistemaInventario.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+DATABASES = {   
+    'default': {   
+        'ENGINE': 'django.db.backends.mysql',   
+        'NAME': 'sistema_inventario_db',   
+        'USER': 'root',   
+        'PASSWORD': '',   
+        'HOST': 'localhost',   
+        'PORT': '3308',   
+        'OPTIONS': {   
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }   
+    }   
+} 
 
 
 # Password validation
