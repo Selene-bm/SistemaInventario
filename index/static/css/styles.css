@@ -5,6 +5,11 @@ body {
     padding: 0;
 }
 
+h1, p {
+    text-align: center;
+    margin: 10px 0;
+    padding-top: 20px;
+}
 
 nav {
     background-color: #333;
@@ -27,8 +32,8 @@ nav a:hover {
 }
 
 nav .cuenta {
-    background-color: #fff;
-    padding: 8px 15px;
+    background-color: #333;
+    padding: 20px 15px;
     border-radius: 5px;
     margin-left: auto;
     cursor: pointer;
