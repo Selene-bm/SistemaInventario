@@ -15,7 +15,7 @@ def register_view(request):
             messages.error(request, 'Error en el registro. Por favor verifica los datos.')
     else:
         form = UsuarioForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'cuenta_app/register.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
@@ -27,4 +27,4 @@ def login_view(request):
             return redirect('/')
         else:
             messages.error(request, 'Usuario o contraseña incorrectos')
-    return render(request, 'login.html')
+    return render(request, 'cuenta_app/login.html')
