@@ -1,7 +1,5 @@
 # Contraseñas y claves secretas de la aplicación y base de datos
 *.env
-SistemaInventario/settings.py
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
