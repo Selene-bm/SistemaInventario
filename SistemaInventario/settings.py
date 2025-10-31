@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'index.apps.IndexConfig',
     'inventario_app.apps.InventarioAppConfig',
+    'cuenta_app.apps.CuentaAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,7 @@ DATABASES = {
         'USER': 'root',   
         'PASSWORD': '',   
         'HOST': 'localhost',   
-        'PORT': '3308',   
+        'PORT': '3306',   
         'OPTIONS': {   
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }   
