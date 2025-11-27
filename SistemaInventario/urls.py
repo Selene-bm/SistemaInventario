@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from proveedores import views as proveedores_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('inventario/', include('inventario_app.urls')),
     path('', include('index.urls')),
     path('cuenta/', include('cuenta_app.urls')),
+    path('proveedores/', include('proveedores.urls')),
+    # convenience direct URL matching the requested format /proveedor/<id>/ -> detail view
+    path('proveedor/<int:id>/', proveedores_views.proveedor_detail, name='proveedor_detail_root'),
 ]

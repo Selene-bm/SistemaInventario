@@ -1,0 +1,13 @@
+{% load static %}
+{% include 'partials/_header.html' %}
+<div class="container mt-4">
+    <h2>Eliminar proveedor</h2>
+    <div class="alert alert-danger mt-3">
+        <p>¿Estás seguro que deseas eliminar al proveedor <strong>{{ proveedor.nombre }}</strong>?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <a href="{% url 'proveedores:detalle' id=proveedor.id_proveedor %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>

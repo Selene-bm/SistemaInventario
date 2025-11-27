@@ -1,0 +1,42 @@
+{% load static %}
+{% include 'partials/_header.html' %}
+{% csrf_token %}
+<head>
+    <title>Lista de Proveedores</title>
+</head>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Proveedores</h2>
+        <a class="btn btn-primary" href="{% url 'proveedores:crear' %}">Agregar proveedor</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Contacto</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in proveedores %}
+                <tr>
+                    <td>{{ p.id_proveedor }}</td>
+                    <td><a href="{% url 'proveedores:detalle' id=p.id_proveedor %}">{{ p.nombre }}</a></td>
+                    <td>{{ p.contacto }}</td>
+                    <td>{{ p.direccion }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'proveedores:editar' id=p.id_proveedor %}">Editar</a>
+                        <a class="btn btn-sm btn-outline-danger" href="{% url 'proveedores:eliminar' id=p.id_proveedor %}">Eliminar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No hay proveedores registrados.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
