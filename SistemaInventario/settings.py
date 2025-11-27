@@ -133,6 +133,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+# Redirect anonymous users to the project's login view
+LOGIN_URL = '/cuenta/login/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
