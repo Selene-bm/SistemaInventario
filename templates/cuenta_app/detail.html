@@ -1,0 +1,24 @@
+{% load static %}
+{% include 'partials/_header.html' %}
+
+<div class="container mt-4">
+    <h2>Mi cuenta</h2>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h4 class="card-title">{{ usuario.nombre }} {{ usuario.apellido }}</h4>
+            <p><strong>Nombre de usuario: </strong>{{ usuario.username }}</p>
+            <p><strong>Correo: </strong>{{ usuario.email }}</p>
+            <p><strong>Rol: </strong>{{ usuario.rol }}</p>
+
+            <div class="mt-3 d-flex gap-2">
+                <a href="/" class="btn btn-link">Volver al inicio</a>
+
+                <form method="post" action="{% url 'cuenta:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

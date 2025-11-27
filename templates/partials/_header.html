@@ -16,10 +16,17 @@
         <a href="/proveedores/" class="btn text-light">Tus Proveedores</a>
         <a href="/clientes/" class="btn text-light">Tus Clientes</a>
         <a href="/reportes/" class="btn text-light">Tus Reportes</a>
-        <a href="/cuenta/login" class="btn text-light ms-auto d-flex align-items-center">
-                <span>Tu Cuenta</span>
-                <img src="{% static 'img/cuenta.png' %}" alt="Icono de Cuenta" class="ms-2" style="width: 20px; height: 20px;">
-        </a>
+                {% if user.is_authenticated %}
+                        <a href="{% url 'cuenta:perfil' %}" class="btn text-light ms-auto d-flex align-items-center">
+                                <span>Mi Cuenta</span>
+                                <img src="{% static 'img/cuenta.png' %}" alt="Icono de Cuenta" class="ms-2" style="width: 20px; height: 20px;">
+                        </a>
+                {% else %}
+                        <a href="{% url 'cuenta:login' %}" class="btn text-light ms-auto d-flex align-items-center">
+                                <span>Tu Cuenta</span>
+                                <img src="{% static 'img/cuenta.png' %}" alt="Icono de Cuenta" class="ms-2" style="width: 20px; height: 20px;">
+                        </a>
+                {% endif %}
 
     </nav>
 {% if messages %}
