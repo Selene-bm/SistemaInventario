@@ -22,8 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('inventario/', include('inventario_app.urls')),
     path('', include('index.urls')),
-    path('cuenta/', include('cuenta_app.urls')),
-    path('proveedores/', include('proveedores.urls')),
+    path('cuenta/', include('cuenta_app.urls', namespace='cuenta')),
+    path('proveedores/', include('proveedores.urls', namespace='proveedores')),
     # convenience direct URL matching the requested format /proveedor/<id>/ -> detail view
     path('proveedor/<int:id>/', proveedores_views.proveedor_detail, name='proveedor_detail_root'),
 ]
