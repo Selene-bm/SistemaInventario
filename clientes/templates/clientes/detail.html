@@ -1,0 +1,58 @@
+{% load static %}
+{% include 'partials/_header.html' %}
+
+<div class="container mt-4">
+    <h2>Detalle del cliente</h2>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h4 class="card-title">{{ cliente.nombre }}</h4>
+            <p><strong>ID: </strong>{{ cliente.id_cliente }}</p>
+            <p><strong>Contacto: </strong>{{ cliente.contacto }}</p>
+            <p><strong>Dirección: </strong>{{ cliente.direccion }}</p>
+
+            <div class="mt-3 mb-4">
+                <a href="{% url 'clientes:editar' id=cliente.id_cliente %}" class="btn btn-secondary">Editar cliente</a>
+                <a href="{% url 'clientes:lista' %}" class="btn btn-link">Volver a lista</a>
+            </div>
+
+            <h4>Movimientos</h4>
+            <div class="mb-3">
+                <a class="btn btn-sm btn-primary" href="{% url 'clientes:movimiento_crear' cliente_id=cliente.id_cliente %}">Agregar movimiento</a>
+            </div>
+
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in movimientos %}
+                        <tr>
+                            <td>{{ m.id_movimiento }}</td>
+                            <td>{{ m.fecha }}</td>
+                            <td>{{ m.producto.nombre }}</td>
+                            <td>{{ m.cantidad }}</td>
+                            <td>{{ m.total }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'clientes:movimiento_editar' id=m.id_movimiento %}">Editar</a>
+                                <a class="btn btn-sm btn-outline-danger" href="{% url 'clientes:movimiento_eliminar' id=m.id_movimiento %}">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6">No hay movimientos para este cliente.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

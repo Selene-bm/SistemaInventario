@@ -1,0 +1,38 @@
+{% load static %}
+{% include 'partials/_header.html' %}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Clientes</h2>
+        <a class="btn btn-primary" href="{% url 'clientes:crear' %}">Agregar cliente</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Contacto</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in clientes %}
+                <tr>
+                    <td>{{ c.id_cliente }}</td>
+                    <td><a href="{% url 'clientes:detalle' id=c.id_cliente %}">{{ c.nombre }}</a></td>
+                    <td>{{ c.contacto }}</td>
+                    <td>{{ c.direccion }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'clientes:editar' id=c.id_cliente %}">Editar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No hay clientes registrados.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

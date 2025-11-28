@@ -1,0 +1,14 @@
+{% load static %}
+{% include 'partials/_header.html' %}
+
+<div class="container mt-4">
+    <h2>Eliminar movimiento</h2>
+    <div class="alert alert-danger mt-3">
+        <p>¿Estás seguro que deseas eliminar este movimiento (ID: {{ movimiento.id_movimiento }})?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <a href="{% url 'clientes:detalle' id=cliente.id_cliente %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
