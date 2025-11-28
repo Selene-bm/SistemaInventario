@@ -10,3 +10,6 @@ class Proveedor(models.Model):
 
     def __str__(self):
         return f"Nombre de proveedor: {self.nombre}. Contacto: {self.contacto}. Dirección: {self.direccion}."
+    
+    class Meta:
+        db_table = 'proveedores'

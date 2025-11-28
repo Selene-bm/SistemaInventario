@@ -10,6 +10,10 @@ class Cliente(models.Model):
 
     def __str__(self):
         return f"{self.nombre} (ID:{self.id_cliente})"
+    
+    class Meta:
+        db_table = "clientes"
+
 
 
 class Movimiento(models.Model):
@@ -26,3 +30,6 @@ class Movimiento(models.Model):
 
     def __str__(self):
         return f"Movimiento {self.id_movimiento} - {self.producto.nombre} x{self.cantidad} para {self.cliente.nombre}"
+    
+    class Meta:
+        db_table = "movimientos"
