@@ -1,0 +1,45 @@
+{% load static %}
+{% include 'partials/_header.html' %}
+
+<div class="container mt-4">
+    <h2>{{ accion }} producto</h2>
+
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+            {{ form.nombre.label_tag }}
+            {{ form.nombre }}
+            {{ form.nombre.errors }}
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-6">
+                {{ form.precio_compra.label_tag }}
+                {{ form.precio_compra }}
+                {{ form.precio_compra.errors }}
+            </div>
+            <div class="col-md-6">
+                {{ form.precio_venta.label_tag }}
+                {{ form.precio_venta }}
+                {{ form.precio_venta.errors }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            {{ form.stock_actual.label_tag }}
+            {{ form.stock_actual }}
+            {{ form.stock_actual.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.proveedor.label_tag }}
+            {{ form.proveedor }}
+            {{ form.proveedor.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{ accion }}</button>
+        <a class="btn btn-link" href="{% url 'productos:lista' %}">Cancelar</a>
+    </form>
+</div>
