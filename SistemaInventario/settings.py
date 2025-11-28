@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'inventario_app.apps.InventarioAppConfig',
     'cuenta_app.apps.CuentaAppConfig',
     'proveedores.apps.ProveedoresConfig',
+    'productos.apps.ProductosConfig',
 ]
 
 MIDDLEWARE = [
