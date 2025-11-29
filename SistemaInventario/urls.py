@@ -28,4 +28,5 @@ urlpatterns = [
     path('clientes/', include('clientes.urls', namespace='clientes')),
     # convenience direct URL matching the requested format /proveedor/<id>/ -> detail view
     path('proveedor/<int:id>/', proveedores_views.proveedor_detail, name='proveedor_detail_root'),
+    path('reportes/', include('reportes.urls', namespace='reportes')),
 ]
