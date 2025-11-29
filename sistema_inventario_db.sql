@@ -52,9 +52,9 @@ CREATE TABLE IF NOT EXISTS `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
--- Volcando datos para la tabla sistema_inventario_db.auth_permission: ~28 rows (aproximadamente)
+-- Volcando datos para la tabla sistema_inventario_db.auth_permission: ~40 rows (aproximadamente)
 INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALUES
 	(1, 'Can add permission', 1, 'add_permission'),
 	(2, 'Can change permission', 1, 'change_permission'),
@@ -83,7 +83,30 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 	(25, 'Can add proveedor', 7, 'add_proveedor'),
 	(26, 'Can change proveedor', 7, 'change_proveedor'),
 	(27, 'Can delete proveedor', 7, 'delete_proveedor'),
-	(28, 'Can view proveedor', 7, 'view_proveedor');
+	(28, 'Can view proveedor', 7, 'view_proveedor'),
+	(29, 'Can add producto', 8, 'add_producto'),
+	(30, 'Can change producto', 8, 'change_producto'),
+	(31, 'Can delete producto', 8, 'delete_producto'),
+	(32, 'Can view producto', 8, 'view_producto'),
+	(33, 'Can add cliente', 9, 'add_cliente'),
+	(34, 'Can change cliente', 9, 'change_cliente'),
+	(35, 'Can delete cliente', 9, 'delete_cliente'),
+	(36, 'Can view cliente', 9, 'view_cliente'),
+	(37, 'Can add movimiento', 10, 'add_movimiento'),
+	(38, 'Can change movimiento', 10, 'change_movimiento'),
+	(39, 'Can delete movimiento', 10, 'delete_movimiento'),
+	(40, 'Can view movimiento', 10, 'view_movimiento');
+
+-- Volcando estructura para tabla sistema_inventario_db.clientes
+CREATE TABLE IF NOT EXISTS `clientes` (
+  `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(150) NOT NULL,
+  `contacto` varchar(50) NOT NULL,
+  `direccion` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_cliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+-- Volcando datos para la tabla sistema_inventario_db.clientes: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla sistema_inventario_db.django_admin_log
 CREATE TABLE IF NOT EXISTS `django_admin_log` (
@@ -111,9 +134,9 @@ CREATE TABLE IF NOT EXISTS `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
--- Volcando datos para la tabla sistema_inventario_db.django_content_type: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla sistema_inventario_db.django_content_type: ~10 rows (aproximadamente)
 INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 	(1, 'auth', 'permission'),
 	(2, 'auth', 'group'),
@@ -121,7 +144,10 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 	(4, 'admin', 'logentry'),
 	(5, 'cuenta_app', 'usuario'),
 	(6, 'sessions', 'session'),
-	(7, 'proveedores', 'proveedor');
+	(7, 'proveedores', 'proveedor'),
+	(8, 'productos', 'producto'),
+	(9, 'clientes', 'cliente'),
+	(10, 'clientes', 'movimiento');
 
 -- Volcando estructura para tabla sistema_inventario_db.django_migrations
 CREATE TABLE IF NOT EXISTS `django_migrations` (
@@ -130,9 +156,9 @@ CREATE TABLE IF NOT EXISTS `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
--- Volcando datos para la tabla sistema_inventario_db.django_migrations: ~20 rows (aproximadamente)
+-- Volcando datos para la tabla sistema_inventario_db.django_migrations: ~26 rows (aproximadamente)
 INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 	(1, 'contenttypes', '0001_initial', '2025-10-31 15:17:59.127813'),
 	(2, 'contenttypes', '0002_remove_content_type_name', '2025-10-31 15:17:59.150278'),
@@ -153,7 +179,13 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 	(17, 'admin', '0002_logentry_remove_auto_add', '2025-10-31 15:18:01.120885'),
 	(18, 'admin', '0003_logentry_add_action_flag_choices', '2025-10-31 15:18:01.125844'),
 	(19, 'proveedores', '0001_initial', '2025-10-31 15:18:07.011460'),
-	(20, 'sessions', '0001_initial', '2025-10-31 15:18:07.024621');
+	(20, 'sessions', '0001_initial', '2025-10-31 15:18:07.024621'),
+	(21, 'productos', '0001_initial', '2025-11-28 21:18:46.663773'),
+	(22, 'productos', '0002_alter_producto_precio_compra_and_more', '2025-11-28 21:24:09.069289'),
+	(23, 'productos', '0003_alter_producto_precio_compra_and_more', '2025-11-28 21:24:40.465110'),
+	(24, 'clientes', '0001_initial', '2025-11-28 21:38:16.754403'),
+	(25, 'proveedores', '0002_alter_proveedor_table', '2025-11-28 21:43:36.723537'),
+	(26, 'clientes', '0002_alter_cliente_table_alter_movimiento_table', '2025-11-28 21:44:24.035953');
 
 -- Volcando estructura para tabla sistema_inventario_db.django_session
 CREATE TABLE IF NOT EXISTS `django_session` (
@@ -164,21 +196,63 @@ CREATE TABLE IF NOT EXISTS `django_session` (
   KEY `django_session_expire_date_a5c62663` (`expire_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
--- Volcando datos para la tabla sistema_inventario_db.django_session: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla sistema_inventario_db.django_session: ~6 rows (aproximadamente)
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 	('f3umv63nggecpuqvzz5ovapjqov7lnxs', 'e30:1vEqun:wZ0-ybO0EU-CbwFJP-cV9DzNkopBQsC1a_l6FSvvnH4', '2025-11-14 15:19:45.919832'),
-	('plzh7sao7rsjza9m6d6zp4am7pegpeb5', '.eJxVjDEOwjAMRe-SGUXUDknNyN4zVI5taAGlUtNOiLtDpQ6w_vfef7me12Xo12pzP6o7O3SH3y2zPKxsQO9cbpOXqSzzmP2m-J1W301qz8vu_h0MXIdvHUIDibIGMGRGywINRYY2Cp7giHhlhZaspUAqYEESmiZUoggpoXt_ANPlN1U:1vErcB:oHZfOb94H4EcxhVEMwXJMpvrT3TIRVeLK2r0ohS7AZY', '2025-11-14 16:04:35.156515');
+	('jgq41n05g1tkr7h834l5ey7yinku10xo', '.eJxVjDsOwjAQBe_iGlmxvf5R0nMGa7Nr4wBypDipEHeHSCmgfTPzXiLhtta09bykicVZWHH63UakR2474Du22yxpbusyjXJX5EG7vM6cn5fD_Tuo2Ou3BrZ2cCHmYnSMBcEoDUVpV5zCQJo0BIPg2ZLP1nDQ2VNkF4ECDsaJ9wfGBzct:1vOkm5:fPxu0nOjLo0uYwDmToho9bYByS3wcTywo1d8t8TEEOY', '2025-12-11 22:47:41.778741'),
+	('lxyvqg7bfj0gqvr6905ertqdzracndl0', '.eJxVjDsOwjAQBe_iGlmxvf5R0nMGa7Nr4wBypDipEHeHSCmgfTPzXiLhtta09bykicVZWHH63UakR2474Du22yxpbusyjXJX5EG7vM6cn5fD_Tuo2Ou3BrZ2cCHmYnSMBcEoDUVpV5zCQJo0BIPg2ZLP1nDQ2VNkF4ECDsaJ9wfGBzct:1vOkmI:4cVee64YE2wBTZNngGBlWuCnnblNQThRAXpc2pOWGSo', '2025-12-11 22:47:54.611427'),
+	('plzh7sao7rsjza9m6d6zp4am7pegpeb5', '.eJxVjDEOwjAMRe-SGUXUDknNyN4zVI5taAGlUtNOiLtDpQ6w_vfef7me12Xo12pzP6o7O3SH3y2zPKxsQO9cbpOXqSzzmP2m-J1W301qz8vu_h0MXIdvHUIDibIGMGRGywINRYY2Cp7giHhlhZaspUAqYEESmiZUoggpoXt_ANPlN1U:1vErcB:oHZfOb94H4EcxhVEMwXJMpvrT3TIRVeLK2r0ohS7AZY', '2025-11-14 16:04:35.156515'),
+	('rmkyjvug5n9pi2d1iwtch5jkudd3hkr3', '.eJxVjEEOgjAQRe_StWkYWpni0j1nIDPTqUUNTSisjHdXEha6_e-9_zIjbWset6rLOEVzMd6cfjcmeei8g3in-VaslHldJra7Yg9a7VCiPq-H-3eQqeZvLdyjj9pCgIAILF1kBhHEc2rRhy6qJofBgYcemJ1QQ8EHVWqS71rz_gDr_DgJ:1vEw82:ZmbtRc-LA6y7NuxwuXWAxwfewFygjPYwAwvBHYgEPw0', '2025-11-14 20:53:46.958954'),
+	('zqw3ls7ipvxxh4pq2611jofljimzgoxd', '.eJxVjDsOwjAQBe_iGlmxvf5R0nMGa7Nr4wBypDipEHeHSCmgfTPzXiLhtta09bykicVZWHH63UakR2474Du22yxpbusyjXJX5EG7vM6cn5fD_Tuo2Ou3BrZ2cCHmYnSMBcEoDUVpV5zCQJo0BIPg2ZLP1nDQ2VNkF4ECDsaJ9wfGBzct:1vOkCF:Tg7KgHwj2RMq-gYi5kzjNVxZbYGmZiNNwI8dSThF1Fk', '2025-12-11 22:10:39.977500');
 
--- Volcando estructura para tabla sistema_inventario_db.proveedores_proveedor
-CREATE TABLE IF NOT EXISTS `proveedores_proveedor` (
+-- Volcando estructura para tabla sistema_inventario_db.movimientos
+CREATE TABLE IF NOT EXISTS `movimientos` (
+  `id_movimiento` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` datetime(6) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `cliente_id` int(11) NOT NULL,
+  `producto_id` int(11) NOT NULL,
+  PRIMARY KEY (`id_movimiento`),
+  KEY `clientes_movimiento_cliente_id_814dec46_fk_clientes_` (`cliente_id`),
+  KEY `clientes_movimiento_producto_id_56b5dcfc_fk_productos` (`producto_id`),
+  CONSTRAINT `clientes_movimiento_cliente_id_814dec46_fk_clientes_` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id_cliente`),
+  CONSTRAINT `clientes_movimiento_producto_id_56b5dcfc_fk_productos` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id_producto`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+-- Volcando datos para la tabla sistema_inventario_db.movimientos: ~0 rows (aproximadamente)
+
+-- Volcando estructura para tabla sistema_inventario_db.productos
+CREATE TABLE IF NOT EXISTS `productos` (
+  `id_producto` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(150) NOT NULL,
+  `precio_compra` int(11) NOT NULL,
+  `precio_venta` int(11) NOT NULL,
+  `stock_actual` int(11) NOT NULL,
+  `proveedor_id` int(11) NOT NULL,
+  PRIMARY KEY (`id_producto`),
+  KEY `productos_proveedor_id_166c7fe0_fk_proveedor` (`proveedor_id`),
+  CONSTRAINT `productos_proveedor_id_166c7fe0_fk_proveedor` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedores` (`id_proveedor`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+-- Volcando datos para la tabla sistema_inventario_db.productos: ~2 rows (aproximadamente)
+INSERT INTO `productos` (`id_producto`, `nombre`, `precio_compra`, `precio_venta`, `stock_actual`, `proveedor_id`) VALUES
+	(1, 'Individuales de navidad', 2000, 25000, 50, 3),
+	(2, 'Servilletero navideño', 1500, 10000, 20, 3);
+
+-- Volcando estructura para tabla sistema_inventario_db.proveedores
+CREATE TABLE IF NOT EXISTS `proveedores` (
   `id_proveedor` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `contacto` decimal(10,0) NOT NULL,
   `direccion` varchar(255) NOT NULL,
   PRIMARY KEY (`id_proveedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
--- Volcando datos para la tabla sistema_inventario_db.proveedores_proveedor: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla sistema_inventario_db.proveedores: ~3 rows (aproximadamente)
+INSERT INTO `proveedores` (`id_proveedor`, `nombre`, `contacto`, `direccion`) VALUES
+	(1, 'Bodemax', 3053790880, 'Calle 43 #109-78'),
+	(2, 'Rue Bodegas', 3105916884, 'Calle 70 #2AN - 121'),
+	(3, 'Lupita\'s Luxury', 310891262, 'Calle 100 # 42-94');
 
 -- Volcando estructura para tabla sistema_inventario_db.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
@@ -198,9 +272,9 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `rol` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
--- Volcando datos para la tabla sistema_inventario_db.usuarios: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla sistema_inventario_db.usuarios: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla sistema_inventario_db.usuarios_groups
 CREATE TABLE IF NOT EXISTS `usuarios_groups` (
