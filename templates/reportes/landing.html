@@ -1,18 +1,762 @@
-{% load static %}
-{% include 'partials/_header.html' %}
-    <div class="container mt-4">
-        <h2>Reportes Disponibles</h2>
-        <div class="list-group mt-3">
-            <a href="{% url 'reportes:reporte_inventario' %}" class="list-group-item list-group-item-action">
-                Generar PDF: Reporte de Inventario
-            </a>
-            <a href="{% url 'reportes:reporte_clientes' %}" class="list-group-item list-group-item-action">
-                Generar PDF: Reporte de Clientes
-            </a>
-            <a href="{% url 'reportes:reporte_proveedores' %}" class="list-group-item list-group-item-action">
-                Generar PDF: Reporte de Proveedores
-            </a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes - Sistema Inventario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            color: var(--primary-color);
+            padding: 1rem 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-menu a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .nav-menu a.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #219653;
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+
+        .btn-danger {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .page-title i {
+            color: var(--secondary-color);
+        }
+
+        /* Reports Grid */
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .report-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            transition: var(--transition);
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .report-card.inventory {
+            border-left-color: var(--success-color);
+        }
+
+        .report-card.clients {
+            border-left-color: var(--secondary-color);
+        }
+
+        .report-card.providers {
+            border-left-color: var(--warning-color);
+        }
+
+        .report-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .report-card.inventory .report-icon {
+            color: var(--success-color);
+        }
+
+        .report-card.clients .report-icon {
+            color: var(--secondary-color);
+        }
+
+        .report-card.providers .report-icon {
+            color: var(--warning-color);
+        }
+
+        .report-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .report-card p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .report-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .report-features li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .report-features li i {
+            color: var(--success-color);
+            font-size: 0.9rem;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Stats Overview */
+        .stats-overview {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-overview h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-actions h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .action-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 50%;
+        }
+
+        .action-text {
+            flex: 1;
+        }
+
+        .action-text h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+            color: var(--primary-color);
+        }
+
+        .action-text p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 1rem 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu, .user-actions {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .report-actions {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-boxes logo-icon"></i>
+                <h1>InventarioPro</h1>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="{% url 'index' %}">Inicio</a></li>
+                    <li><a href="{% url 'productos:lista' %}">Productos</a></li>
+                    <li><a href="{% url 'proveedores:lista' %}">Proveedores</a></li>
+                    <li><a href="{% url 'clientes:lista' %}">Clientes</a></li>
+                    <li><a href="{% url 'reportes:landing' %}" class="active">Reportes</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <a href="{% url 'cuenta:login' %}" class="btn btn-outline">Iniciar Sesión</a>
+                <a href="{% url 'cuenta:register' %}" class="btn btn-primary">Registrarse</a>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-chart-bar"></i>
+                Centro de Reportes
+            </h1>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <h2>Resumen General del Sistema</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">
+                        {% with productos_count=0 %}
+                            {{ productos_count }}
+                        {% endwith %}
+                    </div>
+                    <div class="stat-label">Productos en Inventario</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">
+                        {% with proveedores_count=0 %}
+                            {{ proveedores_count }}
+                        {% endwith %}
+                    </div>
+                    <div class="stat-label">Proveedores Activos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">
+                        {% with clientes_count=0 %}
+                            {{ clientes_count }}
+                        {% endwith %}
+                    </div>
+                    <div class="stat-label">Clientes Registrados</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">
+                        {% with movimientos_count=0 %}
+                            {{ movimientos_count }}
+                        {% endwith %}
+                    </div>
+                    <div class="stat-label">Movimientos Totales</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Grid -->
+        <div class="reports-grid">
+            <!-- Inventory Report Card -->
+            <div class="report-card inventory">
+                <div class="report-icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <h3>Reporte de Inventario</h3>
+                <p>Genera un reporte completo de todos los productos en tu inventario con información detallada de stock, precios y proveedores.</p>
+                
+                <ul class="report-features">
+                    <li><i class="fas fa-check"></i> Lista completa de productos</li>
+                    <li><i class="fas fa-check"></i> Niveles de stock actuales</li>
+                    <li><i class="fas fa-check"></i> Precios de compra y venta</li>
+                    <li><i class="fas fa-check"></i> Información de proveedores</li>
+                </ul>
+                
+                <div class="report-actions">
+                    <a href="{% url 'reportes:reporte_inventario' %}" class="btn btn-success">
+                        <i class="fas fa-file-pdf"></i> Generar PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Clients Report Card -->
+            <div class="report-card clients">
+                <div class="report-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Reporte de Clientes</h3>
+                <p>Obtén un listado completo de todos tus clientes con su información de contacto y historial de movimientos.</p>
+                
+                <ul class="report-features">
+                    <li><i class="fas fa-check"></i> Datos completos de clientes</li>
+                    <li><i class="fas fa-check"></i> Información de contacto</li>
+                    <li><i class="fas fa-check"></i> Direcciones registradas</li>
+                    <li><i class="fas fa-check"></i> Resumen de movimientos</li>
+                </ul>
+                
+                <div class="report-actions">
+                    <a href="{% url 'reportes:reporte_clientes' %}" class="btn btn-primary">
+                        <i class="fas fa-file-pdf"></i> Generar PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Providers Report Card -->
+            <div class="report-card providers">
+                <div class="report-icon">
+                    <i class="fas fa-truck-loading"></i>
+                </div>
+                <h3>Reporte de Proveedores</h3>
+                <p>Genera un reporte detallado de todos tus proveedores con información de contacto y productos asociados.</p>
+                
+                <ul class="report-features">
+                    <li><i class="fas fa-check"></i> Lista de proveedores</li>
+                    <li><i class="fas fa-check"></i> Contactos telefónicos</li>
+                    <li><i class="fas fa-check"></i> Direcciones completas</li>
+                    <li><i class="fas fa-check"></i> Productos por proveedor</li>
+                </ul>
+                
+                <div class="report-actions">
+                    <a href="{% url 'reportes:reporte_proveedores' %}" class="btn btn-warning">
+                        <i class="fas fa-file-pdf"></i> Generar PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2>Acciones Rápidas</h2>
+            <div class="actions-grid">
+                <a href="{% url 'productos:lista' %}" class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="action-text">
+                        <h4>Gestionar Productos</h4>
+                        <p>Ver y administrar inventario</p>
+                    </div>
+                </a>
+                <a href="{% url 'proveedores:lista' %}" class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="action-text">
+                        <h4>Gestionar Proveedores</h4>
+                        <p>Administrar información de proveedores</p>
+                    </div>
+                </a>
+                <a href="{% url 'clientes:lista' %}" class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="action-text">
+                        <h4>Gestionar Clientes</h4>
+                        <p>Ver y editar información de clientes</p>
+                    </div>
+                </a>
+                <a href="{% url 'index' %}" class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="action-text">
+                        <h4>Ir al Inicio</h4>
+                        <p>Volver a la página principal</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>InventarioPro</h3>
+                <p>El sistema de gestión de inventario más completo y fácil de usar para pequeñas y medianas empresas.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'index' %}">Inicio</a></li>
+                    <li><a href="{% url 'productos:lista' %}">Productos</a></li>
+                    <li><a href="{% url 'proveedores:lista' %}">Proveedores</a></li>
+                    <li><a href="{% url 'clientes:lista' %}">Clientes</a></li>
+                    <li><a href="{% url 'reportes:landing' %}">Reportes</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contacto</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> info@inventariopro.com</li>
+                    <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Ciudad, País</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 InventarioPro. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            const userActions = document.querySelector('.user-actions');
+            
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+            userActions.style.display = userActions.style.display === 'flex' ? 'none' : 'flex';
+            
+            if (navMenu.style.display === 'flex') {
+                navMenu.style.flexDirection = 'column';
+                navMenu.style.position = 'absolute';
+                navMenu.style.top = '100%';
+                navMenu.style.left = '0';
+                navMenu.style.right = '0';
+                navMenu.style.backgroundColor = 'white';
+                navMenu.style.padding = '1rem';
+                navMenu.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                
+                userActions.style.flexDirection = 'column';
+                userActions.style.position = 'absolute';
+                userActions.style.top = 'calc(100% + 180px)';
+                userActions.style.left = '0';
+                userActions.style.right = '0';
+                userActions.style.backgroundColor = 'white';
+                userActions.style.padding = '1rem';
+                userActions.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Add loading states to PDF generation buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (this.href.includes('.pdf')) {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando PDF...';
+                    this.disabled = true;
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.disabled = false;
+                    }, 3000);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

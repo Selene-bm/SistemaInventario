@@ -1,31 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="shortcut icon" href="{% static 'img/favicon.svg' %}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>Registro</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Registro - Sistema de Inventario</title>
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .register-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .navbar-system {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-bottom: 3px solid #667eea;
+        }
+    </style>
 </head>
-<body>
-    {% include 'partials/_header.html' %}
-    <h1>Registro</h1>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <br>
-        <div class="text-center mb-3">
-            <button type="submit" class="btn btn-outline-success">Registrarse</button>
+<body class="bg-light">
+    <!-- Barra de navegación del sistema -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-system">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-boxes me-2"></i>InventarioPro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSystem">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSystem">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productos/">
+                            <i class="fas fa-box me-1"></i>Productos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/proveedores/">
+                            <i class="fas fa-truck me-1"></i>Proveedores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/clientes/">
+                            <i class="fas fa-users me-1"></i>Clientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reportes/">
+                            <i class="fas fa-chart-bar me-1"></i>Reportes
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cuenta/login">
+                            <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/cuenta/register">
+                            <i class="fas fa-user-plus me-1"></i>Registrarse
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </form>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Sección izquierda - Información del sistema -->
+            <div class="col-lg-6 d-none d-lg-flex bg-gradient-primary text-white p-5">
+                <div class="w-100 d-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                        <h1 class="display-5 fw-bold mb-4">
+                            <i class="fas fa-boxes me-3"></i>SistemaInventario
+                        </h1>
+                        <p class="lead mb-4">Únete a nuestra plataforma y optimiza la gestión de tu inventario de manera profesional.</p>
+                        
+                        <div class="row text-start mt-5">
+                            <div class="col-md-6 mb-4">
+                                <h5><i class="fas fa-box me-2"></i>Gestión Completa</h5>
+                                <p class="small mb-0 opacity-75">Controla productos, proveedores y clientes</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h5><i class="fas fa-shield-alt me-2"></i>Seguridad</h5>
+                                <p class="small mb-0 opacity-75">Datos protegidos y seguros</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h5><i class="fas fa-chart-bar me-2"></i>Reportes Avanzados</h5>
+                                <p class="small mb-0 opacity-75">Genera análisis detallados</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h5><i class="fas fa-mobile-alt me-2"></i>Acceso Móvil</h5>
+                                <p class="small mb-0 opacity-75">Disponible en todos los dispositivos</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-5">
+                            <p class="small opacity-75">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <strong>Más de 500 empresas confían en nosotros</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección derecha - Formulario de registro -->
+            <div class="col-lg-6 d-flex align-items-center justify-content-center py-5">
+                <div class="w-100" style="max-width: 500px;">
+                    <div class="text-center mb-5">
+                        <h2 class="fw-bold text-primary">Registro</h2>
+                        <p class="text-muted">Completa tus datos para crear una cuenta</p>
+                    </div>
+
+                    <!-- Mensajes -->
+                    {% if messages %}
+                    <div class="mb-4">
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                            <i class="fas fa-{% if message.tags == 'error' %}exclamation-triangle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Formulario simple -->
+                    <div class="card register-card shadow">
+                        <div class="card-body p-4">
+                            <form method="post">
+                                {% csrf_token %}
+                                
+                                <!-- Username -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Username:</label>
+                                    {{ form.username }}
+                                </div>
+
+                                <!-- Nombre -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Nombre:</label>
+                                    {{ form.nombre }}
+                                </div>
+
+                                <!-- Apellido -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Apellido:</label>
+                                    {{ form.apellido }}
+                                </div>
+
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Email:</label>
+                                    {{ form.email }}
+                                </div>
+
+                                <!-- Rol -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Rol:</label>
+                                    {{ form.rol }}
+                                </div>
+
+                                <!-- Password1 -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Password1:</label>
+                                    {{ form.password1 }}
+                                </div>
+
+                                <!-- Password2 -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Password2:</label>
+                                    {{ form.password2 }}
+                                </div>
+
+                                <!-- Botón de registro -->
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg fw-semibold py-2">
+                                        <i class="fas fa-user-plus me-2"></i>Registrarse
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Enlace a login -->
+                    <div class="text-center mt-4">
+                        <p class="text-muted">
+                            ¿Ya tienes cuenta? 
+                            <a href="/cuenta/login" class="text-primary text-decoration-none fw-semibold">Inicia sesión aquí</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"></script>
 </body>
 </html>
